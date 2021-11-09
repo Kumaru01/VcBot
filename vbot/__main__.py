@@ -89,7 +89,7 @@ async def playvideo(event):
     group_call = group_call_factory.get_group_call()
     await group_call.join(event.chat_id)
     await group_call.start_video(f"{video}")
-    VIDEO_CALL[c_id] = group_call
+    VC[c_id] = group_call
     await xx.edit(f"`✓Joined Vc Sucessfully in {event.chat_id}.`")
 
 
