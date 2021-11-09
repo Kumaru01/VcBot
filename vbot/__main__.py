@@ -82,6 +82,7 @@ async def play(event):
 
 @user.on(events.NewMessage(outgoing=True, pattern="\\.playvideo ?(.*)"))
 async def playvideo(event):
+    c_id = event.chat_id
     xx = await event.edit("`Converting...`")
     link = event.pattern_match.group(1)
     n = pafy.new(link)
