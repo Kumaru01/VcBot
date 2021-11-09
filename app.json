@@ -1,0 +1,20 @@
+{
+    "name": "VcBot",
+    "description": "A Normal Telegram Bot Which can play audio and video from Youtube in Video Chat of Telegram.",
+    "repository": "https://github.com/kaif-00z/VcBot",
+    "stack": "container",
+    "env": {
+        "API_ID": {
+            "description": "You api id, from my.telegram.org or @apiScrapperRoBot.",
+            "value": ""
+        },
+        "API_HASH": {
+            "description": "You api hash, from my.telegram.org or @apiScrapperRoBot.",
+            "value": ""
+        },
+        "SESSION": {
+            "description": "Generate your session string from @SessionGeneratorBot.",
+            "value": ""
+        }
+    }
+}
