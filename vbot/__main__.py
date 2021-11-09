@@ -87,8 +87,8 @@ async def playvideo(event):
     n = pafy.new(link)
     video = n.getbest().url
     group_call = group_call_factory.get_group_call()
-    await group_callv.join(event.chat_id)
-    await group_callv.start_video(f"{video}")
+    await group_call.join(event.chat_id)
+    await group_call.start_video(f"{video}")
     VIDEO_CALL[c_id] = group_call
     await xx.edit(f"`✓Joined Vc Sucessfully in {event.chat_id}.`")
 
@@ -124,7 +124,7 @@ async def resume(event):
 async def mute(event):
     try:
         await VC[event.chat_id].set_is_mute(True)
-        await event.edit(f"`✓Sucessfully mute the Vc in {event.chat_id}.")
+        await event.edit(f"`✓Sucessfully mute the Vc in {event.chat_id}.`")
     except BaseException:
         await event.edit(f"`✘Error while muting the Vc in {event.chat_id}.`")
 
