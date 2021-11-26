@@ -42,7 +42,7 @@ async def help(event):
     await event.edit(
         """
         **Available Commands**:\n
-        • `.play <youtube link>` - This command play Audio in Vc.\n
+        • `.play <youtube link / reply>` - This command play Audio in Vc.\n
         • `.playvideo <youtube link>` - This command play Video in Vc.\n
         • `.stopvc` - This command stop Vc.\n
         • `.pausevc` - This command pause Vc.\n
@@ -55,8 +55,18 @@ async def help(event):
 
 @user.on(events.NewMessage(outgoing=True, pattern="\\.play ?(.*)"))
 async def play(event):
-    link = event.pattern_match.group(1)
     c_id = event.chat_id
+    if event.reply_to:
+        x = await event.edit("`converting...`")
+        reply = await event.get_reply_message()
+        down = await user.download_media(reply)
+        group_call = group_call_factory.get_group_call()
+        await group_call.join(event.chat_id)
+        await group_call.start_audio(f"{down}")
+        VC[c_id] = group_call
+        await x.edit(f"`✓Joined Vc Sucessfully in {event.chat_id}.`")
+        return
+    link = event.pattern_match.group(1)
     x = await event.edit("`Downloading & Converting...`")
     ydl_opts = {
         "format": "bestaudio/best",
