@@ -2,4 +2,4 @@ python-decouple
 telethon
 pytgcalls==3.0.0.dev19
 youtube-dl
-pafy
+https://github.com/kaif-00z/pafy/archive/develop.zip
