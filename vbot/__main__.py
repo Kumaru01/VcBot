@@ -43,7 +43,7 @@ async def help(event):
         """
         **Available Commands**:\n
         • `.play <youtube link / reply>` - This command play Audio in Vc.\n
-        • `.playvideo <youtube link>` - This command play Video in Vc.\n
+        • `.videoplay <youtube link>` - This command play Video in Vc.\n
         • `.stopvc` - This command stop Vc.\n
         • `.pausevc` - This command pause Vc.\n
         • `.resumevc` - This command resume Vc.\n
@@ -53,7 +53,7 @@ async def help(event):
     )
 
 
-@user.on(events.NewMessage(outgoing=True, pattern="\\.play ?(.*)"))
+@user.on(events.NewMessage(outgoing=True, pattern="\\.play"))
 async def play(event):
     c_id = event.chat_id
     if event.reply_to:
@@ -66,7 +66,7 @@ async def play(event):
         VC[c_id] = group_call
         await x.edit(f"`✓Joined Vc Sucessfully in {event.chat_id}.`")
         return
-    link = event.pattern_match.group(1)
+    link = event.text.split()[1]
     x = await event.edit("`Downloading & Converting...`")
     ydl_opts = {
         "format": "bestaudio/best",
@@ -84,24 +84,32 @@ async def play(event):
         info_dict = ydl.extract_info(link, download=False)
         audio_id = info_dict.get("id") + ".mp3"
     group_call = group_call_factory.get_group_call()
-    await group_call.join(event.chat_id)
-    await group_call.start_audio(f"{audio_id}")
-    VC[c_id] = group_call
-    await x.edit(f"`✓Joined Vc Sucessfully in {event.chat_id}.`")
+    try:
+        await group_call.join(event.chat_id)
+        await group_call.start_audio(f"{audio_id}")
+        VC[c_id] = group_call
+        await x.edit(f"`✓Joined Vc Sucessfully in {event.chat_id}.`")
+    except Exception as ERROR:
+        await x.edit(f"`✘Error while Joining Vc in {event.chat_id}.`")
+        LOGS.info(str(ERROR))
 
 
-@user.on(events.NewMessage(outgoing=True, pattern="\\.playvideo ?(.*)"))
-async def playvideo(event):
+@user.on(events.NewMessage(outgoing=True, pattern="\\.videoplay"))
+async def videoplay(event):
     c_id = event.chat_id
     xx = await event.edit("`Converting...`")
-    link = event.pattern_match.group(1)
+    link = event.text.split()[1]
     n = pafy.new(link)
     video = n.getbest().url
     group_call = group_call_factory.get_group_call()
-    await group_call.join(event.chat_id)
-    await group_call.start_video(f"{video}")
-    VC[c_id] = group_call
-    await xx.edit(f"`✓Joined Vc Sucessfully in {event.chat_id}.`")
+    try:
+        await group_call.join(event.chat_id)
+        await group_call.start_video(f"{video}")
+        VC[c_id] = group_call
+        await xx.edit(f"`✓Joined Vc Sucessfully in {event.chat_id}.`")
+    except Exception as not:
+        await xx.edit(f"`✘Error while Joining Vc in {event.chat_id}.`")
+        LOGS.info(str(not))
 
 
 @user.on(events.NewMessage(outgoing=True, pattern="\\.stopvc"))
@@ -109,8 +117,9 @@ async def stopvc(event):
     try:
         await VC[event.chat_id].stop()
         await event.edit(f"`✓Successfully Left the Vc in {event.chat_id}.`")
-    except BaseException:
+    except Exception as err:
         await event.edit(f"`✘Error while Lefting the Vc in {event.chat_id}.`")
+        LOGS.info(str(err))
 
 
 @user.on(events.NewMessage(outgoing=True, pattern="\\.pausevc"))
@@ -118,8 +127,9 @@ async def pause(event):
     try:
         await VC[event.chat_id].set_pause(True)
         await event.edit(f"`✓Sucessfully pause the Vc in {event.chat_id}`.")
-    except BaseException:
+    except Exception as eror:
         await event.edit(f"`✘Error while pausing the Vc in {event.chat_id}.`")
+        LOGS.info(str(eror))
 
 
 @user.on(events.NewMessage(outgoing=True, pattern="\\.resumevc"))
@@ -127,8 +137,9 @@ async def resume(event):
     try:
         await VC[event.chat_id].set_pause(False)
         await event.edit(f"`✓Sucessfully resume the Vc in {event.chat_id}.`")
-    except BaseException:
+    except Exception as er:
         await event.edit(f"`✘Error while resuming the Vc in {event.chat_id}.`")
+        LOGS.info(str(er))
 
 
 @user.on(events.NewMessage(outgoing=True, pattern="\\.mutevc"))
@@ -136,8 +147,9 @@ async def mute(event):
     try:
         await VC[event.chat_id].set_is_mute(True)
         await event.edit(f"`✓Sucessfully mute the Vc in {event.chat_id}.`")
-    except BaseException:
+    except Exception as ere:
         await event.edit(f"`✘Error while muting the Vc in {event.chat_id}.`")
+        LOGS.info(str(ere))
 
 
 @user.on(events.NewMessage(outgoing=True, pattern="\\.unmutevc"))
@@ -145,8 +157,9 @@ async def unmute(event):
     try:
         await VC[event.chat_id].set_is_mute(False)
         await event.edit(f"`✓Sucessfully unmute the Vc in {event.chat_id}.`")
-    except BaseException:
+    except Exception as ok:
         await event.edit(f"`✘Error while unmuting the Vc in {event.chat_id}.`")
+        LOGS.info(str(ok))
 
 
 LOGS.info("Bot has started...")
