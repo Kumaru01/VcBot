@@ -107,9 +107,9 @@ async def videoplay(event):
         await group_call.start_video(f"{video}")
         VC[c_id] = group_call
         await xx.edit(f"`✓Joined Vc Sucessfully in {event.chat_id}.`")
-    except Exception as not:
+    except Exception as no:
         await xx.edit(f"`✘Error while Joining Vc in {event.chat_id}.`")
-        LOGS.info(str(not))
+        LOGS.info(str(no))
 
 
 @user.on(events.NewMessage(outgoing=True, pattern="\\.stopvc"))
