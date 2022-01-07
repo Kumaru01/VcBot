@@ -27,6 +27,7 @@ group_call_factory = GroupCallFactory(
 )
 VC = {}
 
+_ = 'youtube-dl -g -f "best[height<=?720][width<=?1280]" {}'
 
 @user.on(events.NewMessage(outgoing=True, pattern="\\.ping"))
 async def ping(event):
@@ -99,12 +100,23 @@ async def videoplay(event):
     c_id = event.chat_id
     xx = await event.edit("`Converting...`")
     link = event.text.split()[1]
-    n = pafy.new(link)
-    video = n.getbest().url
+    sh = _.format(link)
+    process = await asyncio.create_subprocess_shell(
+        sh, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
+    )
+    stdout, stderr = await process.communicate()
+    dlink = stdout.decode()
+    error = stderr.decode()
+    try:
+        if error:
+            await event.edit("Something Went Wrong")
+            return LOGS.info(str(error))
+    except BaseException:
+        pass
     group_call = group_call_factory.get_group_call()
     try:
         await group_call.join(event.chat_id)
-        await group_call.start_video(f"{video}")
+        await group_call.start_video(f"{dlink}")
         VC[c_id] = group_call
         await xx.edit(f"`✓Joined Vc Sucessfully in {event.chat_id}.`")
     except Exception as no:
