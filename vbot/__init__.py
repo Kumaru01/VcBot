@@ -16,7 +16,7 @@
 import time
 from logging import DEBUG, INFO, basicConfig, getLogger, warning
 
-import pafy
+import asyncio
 import youtube_dl
 from pytgcalls import GroupCallFactory
 from pytgcalls.exceptions import GroupCallNotFoundError
