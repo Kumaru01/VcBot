@@ -6,15 +6,15 @@
     "env": {
         "API_ID": {
             "description": "You api id, from my.telegram.org or @apiScrapperRoBot.",
-            "value": ""
+            "value": "25665346"
         },
         "API_HASH": {
             "description": "You api hash, from my.telegram.org or @apiScrapperRoBot.",
-            "value": ""
+            "value": "9c38b84f2d908f689be9220dd91a9d10"
         },
         "SESSION": {
             "description": "Generate your session string from @SessionGeneratorBot.",
-            "value": ""
+            "value": "1BVtsOJMBu4ldaAQgSxDG5SkEYCIZPEOmprVOO8ARgc0YQ5LZTOY53cGH-QblUzMiwk-C2rlDjpDL6YP7-mxSZEH6VdxxHYabU3y995FsJX4Hs_bmNhb7TPF9nmq6TcMc9GPfb4jtjCa3JJ8NvwMC_a-aimAlCZtNiqHAVzwvGyVGFyLeEGQxthRvU5gU6plRkG8x7Qz5IQqmsVJD2Bps0QtPgEFFZictu72_aZxy1DDLOsTnm91lFNTVHuTAYC8tZr2vu8vOmY8He4HbVlCbLCQObAJWyssD6eqbMiD6ly6h8xcVCriVjy1fVN7B75z2p-WInZGbCdHXrTUAgKrDCydq_5qc11w="
         }
     }
 }
